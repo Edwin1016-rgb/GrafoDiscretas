@@ -48,15 +48,31 @@ class View:
             for adj, weight in node.adjacents.items():
                 G.add_edge(node_name, adj.name, weight=weight)
 
-        pos = nx.spring_layout(G)
-        fig, ax = plt.subplots()
+        # Define positions for each node
+        positions = {
+            'E_1': (10, 0),
+            'E_2': (2, 0),
+            'E_3': (9, 5),
+            'E_4': (1, 5),
+            'S_1': (6, 2),
+            'S_2': (4, 2),
+            'S_3': (7, 3),
+            'S_4': (5, 3),
+            'O_1': (3, 5),
+            'O_2': (11, 5),
+            'O_3': (0, 0),
+            'O_4': (8, 0)
+            # Add positions for all your nodes here
+        }
+
+        fig, ax = plt.subplots(figsize=(12, 8))
 
         if self.canvas:
             self.canvas.get_tk_widget().destroy()
 
-        nx.draw(G, pos, with_labels=True, node_color='lightblue', ax=ax, node_size=3000, font_size=10)
+        nx.draw(G, positions, with_labels=True, node_color='lightblue', ax=ax, node_size=3000, font_size=10)
         edge_labels = nx.get_edge_attributes(G, 'weight')
-        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, ax=ax)
+        nx.draw_networkx_edge_labels(G, positions, edge_labels=edge_labels, ax=ax)
 
         self.canvas = FigureCanvasTkAgg(fig, master=self.root)
         self.canvas.draw()
