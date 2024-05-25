@@ -4,7 +4,7 @@ class Controller:
         self.model = model
 
     def evaluate_intersection(self):
-        result = self.model.evaluate_graph()
+        result = any(self.model.evaluate_node(node_name) for node_name in self.model.nodes if node_name.startswith('S'))
         return "It is advisable to install a traffic light" if result else "No need to install a traffic light"
 
     def evaluate_node(self, node_name):

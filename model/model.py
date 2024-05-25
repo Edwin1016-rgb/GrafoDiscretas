@@ -19,6 +19,11 @@ class Graph:
             weight = self.calculate_combined_weight(traffic_volume, wait_time, accidents)
             self.nodes[from_node].add_adjacent(self.nodes[to_node], weight)
 
+            # Si la arista es de un semáforo a una salida, evalúa la necesidad del semáforo
+            if from_node.startswith("S") and to_node.startswith("O"):
+                needs_light = self.evaluate_node(from_node)
+                self.nodes[from_node].add_adjacent(self.nodes[to_node], 1 if needs_light else 0)
+
     def calculate_combined_weight(self, traffic_volume, wait_time, accidents):
         weight_traffic_volume = 0.5
         weight_wait_time = 0.3
@@ -39,3 +44,6 @@ class Graph:
             if weight > weight_threshold:
                 return True
         return False
+
+    def needs_traffic_light(self, node_name):
+        return self.evaluate_node(node_name)
